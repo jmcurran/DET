@@ -1,3 +1,4 @@
+#' @importFrom methods is
 assertDetCurveParameters = function(response,
                                     predictors,
                                     ncores,
@@ -5,7 +6,7 @@ assertDetCurveParameters = function(response,
                                     dets,
                                     names,
                                     nboot) {
-  if (!is.null(dets) && class(dets) != "DETs") {
+  if (!is.null(dets) && !is(dets, "DETs")) {
     stop("'dets' parameter needs to be an object of class 'DETs'.")
   }
   if (!is.null(dets) && !is.null(predictors)) {
