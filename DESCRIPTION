@@ -34,7 +34,7 @@ Author: García-Ródenas, Álvaro [aut, cre],
   Vivo, Juana-María [aut],
   Fernández-Breis, Jesualdo T. [aut],
   Font, Roberto [aut]
-Maintainer: "García-Ródenas, Álvaro" <alvaro.garcia9@um.es>
+#Maintainer: "García-Ródenas, Álvaro" <alvaro.garcia9@um.es>
 Repository: CRAN
 Date/Publication: 2021-04-02 23:00:02 UTC
 URL: https://github.com/jmcurran/DET

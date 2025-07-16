@@ -15,11 +15,11 @@ assertDetCurveParameters = function(response,
     )
   }
   if (!is.null(predictors)) {
+    if (!is.matrix(predictors)) {
+        stop("Wrong type of argument: 'predictors' argument must be a 'matrix'.")
+    }
     if (length(response) == 0 || nrow(predictors) == 0) {
       stop("'response' or 'predictors' are empty.")
-    }
-    if (!is.matrix(predictors)) {
-      stop("Wrong type of argument: 'predictors' argument must be a 'matrix'.")
     }
     if (!is.factor(response)) {
       stop("Wrong type of argument: 'response' argument must be a 'factor'.")
