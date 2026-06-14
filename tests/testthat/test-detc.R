@@ -1,6 +1,3 @@
-context("Testing the detc function")
-library(DET)
-
 response = as.factor(c("+", "-"))
 predictors = as.matrix(data.frame(predictor1 = c(1, 1),
                                   predictor2 = c(0, 1)))
