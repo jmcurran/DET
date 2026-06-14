@@ -2,7 +2,7 @@
 #'
 #' From a response and predictors, the function calculates the DET curve for each pair (response, predictor). Optionally, it can compute this curve with a Confidence Interval (CI).
 #' Instead of a response and predictors, it can also receive a 'DETs' object to extract the results of the DET curves and compute the CIs.
-#' @param response A factor, typically encoded with 0 (non-target) and 1 (target). Also it can be a dicothomous variable which will be treated as a factor. By default, the level of response is taken as target.
+#' @param response A factor, typically encoded with 0 (healthy, genuine user, signal, normal) and 1 (diseased, imposter user, noise, abnormal). Also it can be a dicothomous variable which will be treated as a factor. By default, the level of response is taken as diseased.
 #' @param predictors A matrix which columns represent the values of each predictor.
 #' @param dets A 'DETs' object which will be used to compute the DET curves.
 #' @param names A character vector that will be used to set the names of the DET Curves. It will also appear on the graphic legend when is plotted.
@@ -28,7 +28,7 @@
 #' scorePositive1 = rnorm(n, mean = 0.55, sd = 0.125)
 #' set.seed(54321)
 #' scorePositive2 = rnorm(n, mean = 0.65, sd = 0.125)
-#' response = as.factor(c(rep(c("target"), times = n), rep(c("nontarget"), times = n)))
+#' response = as.factor(c(rep(c("diseased"), times = n), rep(c("healthy"), times = n)))
 #' predictor1 = c(scoreNegative1, scorePositive1)
 #' predictor2 = c(scoreNegative2, scorePositive2)
 #' predictors = matrix(c(predictor1, predictor2), ncol = 2)
@@ -36,7 +36,7 @@
 #' detCurves = detc(
 #'   response,
 #'   predictors,
-#'   positive = "target",
+#'   positive = "diseased",
 #'   names = colnames(predictors)
 #' )
 #'
@@ -46,7 +46,7 @@
 #' detCurvesWithConfidenceInterval = detc(
 #'   response,
 #'   predictors,
-#'   positive = "target",
+#'   positive = "diseased",
 #'   names = colnames(predictors),
 #'   conf = 0.95,
 #'   parallel = TRUE,
@@ -161,7 +161,7 @@ detc = function(response = NULL,
 #' scorePositive1 = rnorm(n, mean = 0.55, sd = 0.125)
 #' set.seed(54321)
 #' scorePositive2 = rnorm(n, mean = 0.65, sd = 0.125)
-#' response = as.factor(c(rep(c("target"), times = n), rep(c("nontarget"), times = n)))
+#' response = as.factor(c(rep(c("diseased"), times = n), rep(c("healthy"), times = n)))
 #' predictor1 = c(scoreNegative1, scorePositive1)
 #' predictor2 = c(scoreNegative2, scorePositive2)
 #' predictors = matrix(c(predictor1, predictor2), ncol = 2)
@@ -169,7 +169,7 @@ detc = function(response = NULL,
 #' detCurves = detc(
 #'   response,
 #'   predictors,
-#'   positive = "target",
+#'   positive = "diseased",
 #'   names = colnames(predictors)
 #' )
 #'
@@ -178,7 +178,7 @@ detc = function(response = NULL,
 #' #logical argument 'parallel'
 #' detCurvesWithConfidenceInterval = detc.ci(
 #'   dets = detCurves,
-#'   positive = "target",
+#'   positive = "diseased",
 #'   names = colnames(predictors),
 #'   conf = 0.95,
 #'   parallel = TRUE,

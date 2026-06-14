@@ -1,7 +1,7 @@
 plotDetCurveWithCI = function(detCurve, color, lwd, type) {
   big_integer = 2147483647
   x = qnorm(detCurve@fpr)
-  y0 = qnorm(detCurve@fnrMedian)
+  y0 = qnorm(detCurve@fnr)
   y1 = qnorm(detCurve@fnrLower)
   y2 = qnorm(detCurve@fnrUpper)
   x[x == Inf] = big_integer
@@ -9,13 +9,16 @@ plotDetCurveWithCI = function(detCurve, color, lwd, type) {
   y0[y0 == -Inf] = -big_integer
   y1[y1 == -Inf] = -big_integer
   y2[y2 == -Inf] = -big_integer
+  y0[y0 == Inf] = big_integer
+  y1[y1 == Inf] = big_integer
+  y2[y2 == Inf] = big_integer
   lines(x,
         y0,
         col = color,
         lwd = lwd,
         type = type)
-  points(x, y1, type = type, col = color)
-  points(x, y2, type = type, col = color)
+  lines(x, y1, col = color)
+  lines(x, y2, col = color)
   bandColor = rgb(col2rgb(color)[1] / 255,
                   col2rgb(color)[2] / 255,
                   col2rgb(color)[3] / 255,
@@ -36,6 +39,7 @@ plotDetCurve = function(detCurve, color, lwd) {
   y[y == Inf] = big_integer
   lines(x, y, col = color, lwd = lwd)
 }
+
 
 plotDETs = function(dets,
                     xlim = c(0.05, 50),
@@ -121,9 +125,11 @@ plotDETs = function(dets,
 
 
 plotROCCurves = function(dets,
-                         xlim = c(-0.1, 1.1),
+                         xlim = c(0, 1),
+                         ylim = c(0, 1),
                          col = c("black", "blue", "red", "green", "yellow"),
                          labels_x = seq(0, 1, 0.1),
+                         labels_y = seq(0, 1, 0.1),
                          xlab = "1 - Specificity",
                          ylab = "Sensitivity",
                          panel.first = grid(nx = 20, ny = 20),
@@ -131,46 +137,61 @@ plotROCCurves = function(dets,
                          lwd = 2,
                          lty = 1,
                          ...) {
+  if (missing(xlim) && !missing(ylim)) {
+    xlim = sort(1-ylim)
+  }
+  if (!missing(xlim) && missing(ylim)) {
+    ylim = sort(1-xlim)
+  }
+  lims_x = xlim
+  lims_y = ylim
+  interval = c(1, length(labels_x))
+  while (labels_x[interval[1]] < xlim[1] ||
+         labels_x[interval[2]] > xlim[2]) {
+    if (labels_x[interval[1]] < xlim[1])
+      interval[1] = interval[1] + 1
+    if (labels_x[interval[2]] > xlim[2])
+      interval[2] = interval[2] - 1
+  }
+  labels_x = c(xlim[1], labels_x[interval[1]:interval[2]], xlim[2])
+  interval = c(1, length(labels_y))
+  while (labels_y[interval[1]] < ylim[1] ||
+         labels_y[interval[2]] > ylim[2]) {
+    if (labels_y[interval[1]] < ylim[1])
+      interval[1] = interval[1] + 1
+    if (labels_y[interval[2]] > ylim[2])
+      interval[2] = interval[2] - 1
+  }
+  labels_y = c(ylim[1], labels_y[interval[1]:interval[2]], ylim[2])
+  plot(
+    x = NaN,
+    y = NaN,
+    type = "n",
+    xlab = xlab,
+    xlim = lims_x,
+    ylab = ylab,
+    ylim = lims_y,
+    xaxt = "n",
+    yaxt = "n",
+    panel.first = panel.first,
+    ...
+  )
+  axis(1, at = labels_x, labels = labels_x)
+  axis(2, at = labels_y, labels = labels_y)
+  lines(seq(0, 1, 0.1), seq(0, 1, 0.1), col = "gray", lty = 6)
   detCurves = dets@detCurves
   ncurves = length(detCurves)
   if (ncurves > length(col)) {
     col = rep(col, ceiling(ncurves / length(col)))
   }
   for (i in seq(ncurves)) {
-    if (i == 1) {
-      plot(
-        detCurves[[i]]@fpr,
-        1 - detCurves[[i]]@fnr,
-        type = type,
-        panel.first = panel.first,
-        col = col[i],
-        lwd = lwd,
-        lty = lty,
-        xlim = xlim,
-        ylim = xlim,
-        xlab = xlab,
-        ylab = ylab,
-        xaxt = 'n',
-        yaxt = 'n',
-        ...
-      )
-    } else {
-      lines(
-        detCurves[[i]]@fpr,
-        1 - detCurves[[i]]@fnr,
-        lty = lty,
-        col = col[i],
-        lwd = lwd,
-        xaxt = 'n',
-        yaxt = 'n',
-        ...
-      )
-    }
+    x = detCurves[[i]]@fpr
+    y = 1 - detCurves[[i]]@fnr
+    x = c(1, x, 0)
+    y = c(1, y, 0)
+    lines(x, y, col = col[i], lwd = lwd)
   }
-  axis(1, at = labels_x, labels = labels_x)
-  axis(2, at = labels_x, labels = labels_x)
-  lines(seq(0, 1, 0.1), seq(0, 1, 0.1), col = "gray", lty = 6)
-  if (!is.null(names(detCurves))) {
+  if (ncurves != 1 && !is.null(names(detCurves))) {
     legend(
       "bottomright",
       legend = names(detCurves),
@@ -181,10 +202,13 @@ plotROCCurves = function(dets,
   }
 }
 
+
 plotROCCurvesWithCI = function(dets,
-                               xlim = c(-0.1, 1.1),
+                               xlim = c(0, 1),
+                               ylim = c(0, 1),
                                col = c("black", "blue", "red", "green", "yellow"),
                                labels_x = seq(0, 1, 0.1),
+                               labels_y = seq(0, 1, 0.1),
                                xlab = "1 - Specificity",
                                ylab = "Sensitivity",
                                panel.first = grid(nx = 20, ny = 20),
@@ -192,39 +216,65 @@ plotROCCurvesWithCI = function(dets,
                                lwd = 2,
                                lty = 1,
                                ...) {
-  detCurves = dets@detCurves
-  ncurves = length(detCurves)
-  if (ncurves > length(col)) {
-    col = rep(col, ceiling(ncurves / length(col)))
+  if (missing(xlim) && !missing(ylim)) {
+    xlim = sort(1-ylim)
   }
+  if (!missing(xlim) && missing(ylim)) {
+    ylim = sort(1-xlim)
+  }
+  lims_x = xlim
+  lims_y = ylim
+  interval = c(1, length(labels_x))
+  while (labels_x[interval[1]] < xlim[1] ||
+         labels_x[interval[2]] > xlim[2]) {
+    if (labels_x[interval[1]] < xlim[1])
+      interval[1] = interval[1] + 1
+    if (labels_x[interval[2]] > xlim[2])
+      interval[2] = interval[2] - 1
+  }
+  labels_x = c(xlim[1], labels_x[interval[1]:interval[2]], xlim[2])
+  interval = c(1, length(labels_y))
+  while (labels_y[interval[1]] < ylim[1] ||
+         labels_y[interval[2]] > ylim[2]) {
+    if (labels_y[interval[1]] < ylim[1])
+      interval[1] = interval[1] + 1
+    if (labels_y[interval[2]] > ylim[2])
+      interval[2] = interval[2] - 1
+  }
+  labels_y = c(ylim[1], labels_y[interval[1]:interval[2]], ylim[2])
   plot(
     x = NaN,
     y = NaN,
     type = "n",
     xlab = xlab,
-    xlim = xlim,
-    ylim  = xlim,
+    xlim = lims_x,
     ylab = ylab,
+    ylim = lims_y,
+    xaxt = "n",
+    yaxt = "n",
     panel.first = panel.first,
     ...
   )
+  axis(1, at = labels_x, labels = labels_x)
+  axis(2, at = labels_y, labels = labels_y)
+  lines(seq(0, 1, 0.1), seq(0, 1, 0.1), col = "gray", lty = 6)
+  detCurves = dets@detCurves
+  ncurves = length(detCurves)
+  if (ncurves > length(col)) {
+    col = rep(col, ceiling(ncurves / length(col)))
+  }
   for (i in seq(ncurves)) {
     x = detCurves[[i]]@fpr
-    y0 = 1 - detCurves[[i]]@fnrLower
-    y1 = 1 - detCurves[[i]]@fnrMedian
+    y0 = 1 - detCurves[[i]]@fnr
+    y1 = 1 - detCurves[[i]]@fnrLower
     y2 = 1 - detCurves[[i]]@fnrUpper
-    x[x == Inf] = 1
-    x[x == -Inf] = 0
-    y0[y0 == -Inf] = 0
-    y1[y1 == -Inf] = 0
-    y2[y2 == -Inf] = 0
     x = c(1, x, 0)
     y0 = c(1, y0, 0)
     y1 = c(1, y1, 0)
     y2 = c(1, y2, 0)
     lines(x, y0, col = col[i], lwd = lwd)
-    points(x, y1, type = type, col = col[i])
-    points(x, y2, type = type, col = col[i])
+    lines(x, y1, col = col[i])
+    lines(x, y2, col = col[i])
     bandColor = rgb(col2rgb(col[i])[1] / 255,
                     col2rgb(col[i])[2] / 255,
                     col2rgb(col[i])[3] / 255,
@@ -234,10 +284,7 @@ plotROCCurvesWithCI = function(dets,
             col = bandColor,
             border = NA)
   }
-  axis(1, at = labels_x, labels = labels_x)
-  axis(2, at = labels_x, labels = labels_x)
-  lines(seq(0, 1, 0.1), seq(0, 1, 0.1), col = "gray", lty = 6)
-  if (!is.null(names(detCurves))) {
+  if (ncurves != 1 && !is.null(names(detCurves))) {
     legend(
       "bottomright",
       legend = names(detCurves),
@@ -247,6 +294,7 @@ plotROCCurvesWithCI = function(dets,
     )
   }
 }
+
 
 #' DET Curves plot
 #'
@@ -344,6 +392,7 @@ plot.DET = function (x, ...) {
   plot.DETs(new("DETs", detCurves = list(detCurve = x)), ...)
 }
 
+
 #' ROC Curves plot
 #'
 #' From a 'DETs' object, this function plots the ROC curves associated with the DETs curves of the object. It includes the
@@ -408,6 +457,7 @@ plotROCs = function (dets, ...) {
   }
 }
 
+
 #' ROC Curve plot
 #'
 #' From a 'DET' object, this function plots the ROC curve associated with the DET curve of the object. It also draws the confidence band when it is available in the object.
@@ -437,6 +487,7 @@ plotROCs = function (dets, ...) {
 plotROC = function (dets, ...) {
   plotROCs(new("DETs", detCurves = list(detCurve = dets)), ...)
 }
+
 
 #' EER Plot
 #'

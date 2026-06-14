@@ -20,17 +20,23 @@ EER = function(fpr, fnr) {
 #' @param p A single numeric value into the (0, 1) intervalrepresenting the prior probability of positive class.
 #' @param cFp A single numeric value representing the cost of False Positives.
 #' @param cFn A single numeric value representing the cost of False Negatives.
-#' @return A 'data.frame' with two attributes:
+#' @return A list of with five attributes:
 #'
 #' - 'minDcfValue': the computed minDCF.
 #'
 #' - 'minDcfIndex': the index of the fpr and fnr in which the minimum is reached.
+#'
+#' - 'minDcf_threshold': the cut-off point in which the minimum is reached.
+#'
+#' - 'minDcf_fpr': the fpr value in which the minimum is reached.
+#'
+#' - 'minDcf_fnr': the fnr value in which the minimum is reached.
 #' @export
 minDcf = function(det,
                   p = 0.01,
                   cFp = 1,
                   cFn = 10) {
-  if (!is(det, "DET")) {
+  if (class(det) != "DET") {
     stop("'det' parameter must be a 'DET' object.")
   }
   if (p<0 || p>1) {
@@ -43,5 +49,10 @@ minDcf = function(det,
   fnr = det@fnr
   minDcfValue = min(p * cFn * fnr + (1 - p) * cFp * fpr)
   minDcfIndex = which.min(p * cFn * fnr + (1 - p) * cFp * fpr)
-  return(data.frame(minDcfValue = minDcfValue, minDcfIndex = minDcfIndex))
+  minDcf_threshold = det@thresholds[minDcfIndex] 
+  minDcf_fpr = fpr[minDcfIndex]
+  minDcf_fnr = fnr[minDcfIndex]
+  return(list(minDcfValue = minDcfValue, minDcfIndex = floor(minDcfIndex), 
+           minDcf_threshold = minDcf_threshold, minDcf_fpr =  minDcf_fpr,  minDcf_fnr = minDcf_fnr))
 }
+
