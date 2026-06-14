@@ -19,7 +19,7 @@ detc(
 )
 }
 \arguments{
-\item{response}{A factor, typically encoded with 0 (non-target) and 1 (target). Also it can be a dicothomous variable which will be treated as a factor. By default, the level of response is taken as target.}
+\item{response}{A factor, typically encoded with 0 (healthy, genuine user, signal, normal) and 1 (diseased, imposter user, noise, abnormal). Also it can be a dicothomous variable which will be treated as a factor. By default, the level of response is taken as diseased.}
 
 \item{predictors}{A matrix which columns represent the values of each predictor.}
 
@@ -62,7 +62,7 @@ set.seed(11452)
 scorePositive1 = rnorm(n, mean = 0.55, sd = 0.125)
 set.seed(54321)
 scorePositive2 = rnorm(n, mean = 0.65, sd = 0.125)
-response = as.factor(c(rep(c("target"), times = n), rep(c("nontarget"), times = n)))
+response = as.factor(c(rep(c("diseased"), times = n), rep(c("healthy"), times = n)))
 predictor1 = c(scoreNegative1, scorePositive1)
 predictor2 = c(scoreNegative2, scorePositive2)
 predictors = matrix(c(predictor1, predictor2), ncol = 2)
@@ -70,7 +70,7 @@ colnames(predictors) = c("DET1", "DET2")
 detCurves = detc(
   response,
   predictors,
-  positive = "target",
+  positive = "diseased",
   names = colnames(predictors)
 )
 
@@ -80,7 +80,7 @@ detCurves = detc(
 detCurvesWithConfidenceInterval = detc(
   response,
   predictors,
-  positive = "target",
+  positive = "diseased",
   names = colnames(predictors),
   conf = 0.95,
   parallel = TRUE,

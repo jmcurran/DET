@@ -16,11 +16,17 @@ minDcf(det, p = 0.01, cFp = 1, cFn = 10)
 \item{cFn}{A single numeric value representing the cost of False Negatives.}
 }
 \value{
-A 'data.frame' with two attributes:
+A list of with five attributes:
 
 - 'minDcfValue': the computed minDCF.
 
 - 'minDcfIndex': the index of the fpr and fnr in which the minimum is reached.
+
+- 'minDcf_threshold': the cut-off point in which the minimum is reached.
+
+- 'minDcf_fpr': the fpr value in which the minimum is reached.
+
+- 'minDcf_fnr': the fnr value in which the minimum is reached.
 }
 \description{
 From a 'DET' object, the function computes the minimum value of the Detection Cost Function (minDCF).
