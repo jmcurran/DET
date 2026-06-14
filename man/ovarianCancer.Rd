@@ -42,7 +42,7 @@ plot(detCurves, main = "Proteomic patterns")
 \references{
 E. F. Petricoin, A. M. Ardekani, B. A. Hitt, P. J. Levine, V. A. Fusaro,  
 S. M. Steinberg, G. B. Mills, C. Simone, D. A. Fishman, E. C. Kohn, L. A. Liotta (2002).  
-*Use of proteomic patterns in serum to identify ovarian cancer*. The Lancet, 359(9306), 572--577.  
+Use of proteomic patterns in serum to identify ovarian cancer. The Lancet, 359(9306), 572--577.  
 \doi{10.1016/S0140-6736(02)07746-2}
 }
 \keyword{cancer}
