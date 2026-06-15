@@ -298,10 +298,10 @@ plotROCCurvesWithCI = function(dets,
 
 #' DET Curves plot
 #'
-#' From a 'DETs' object generated with the \code{detc} function, this function plots the different DET curves included in the object. It includes the
-#' Confidence band in case the DETs curves were calculated with a confidence interval.
+#' From a 'DETs' object generated with the \code{detc} function, this function plots the DET curves included in the object. It includes
+#' a confidence band when the DET curves were calculated with a confidence interval.
 #'
-#' It accepts plot personalization with graphical parameters (see \code{\link{plot}}, for more details):
+#' It accepts plot customisation with graphical parameters (see \code{\link{plot}}, for more details):
 #'
 #' -  'xlim': a numeric vector of length 2, giving the x coordinate range of the plot.
 #'
@@ -309,15 +309,15 @@ plotROCCurvesWithCI = function(dets,
 #'
 #' -  'col': a vector of colors, specifying the color for each DET curve.
 #'
-#' -  'labels_x': a numeric vector indicating the labels of the X axis.
+#' -  'labels_x': a numeric vector indicating the labels of the x-axis.
 #'
-#' -  'labels_y': a numeric vector indicating the labels of the Y axis.
+#' -  'labels_y': a numeric vector indicating the labels of the y-axis.
 #'
-#' -  'xlab': a main label for the X axis.
+#' -  'xlab': a main label for the x-axis.
 #'
-#' -  'ylab': a main label for the Y axis.
+#' -  'ylab': a main label for the y-axis.
 #'
-#' -  'panel.first': a background grid is plotted. It can be used for modifying the background style of the graphic.
+#' -  'panel.first': a background grid is plotted. It can be used for modifying the background style of the plot.
 #'
 #' @param x An object of class "DETs".
 #' @param ... Further graphical arguments passed to the \code{plot} function.
@@ -328,7 +328,7 @@ plotROCCurvesWithCI = function(dets,
 #' @examples
 #' library(DET)
 #' n = 5000
-#' #Predictors with normal distribution
+#' # Predictors with normal distribution
 #' set.seed(1235)
 #' scoreNegative1 = rnorm(n, mean = 0.25, sd = 0.125)
 #' set.seed(5321)
@@ -374,7 +374,7 @@ plot.DETs = function(x,
 #' @examples
 #' library(DET)
 #' n = 5000
-#' #Predictors with normal distribution
+#' # Predictors with normal distribution
 #' set.seed(1235)
 #' scoreNegative = rnorm(n, mean = 0.25, sd = 0.125)
 #' set.seed(11452)
@@ -395,25 +395,25 @@ plot.DET = function (x, ...) {
 
 #' ROC Curves plot
 #'
-#' From a 'DETs' object, this function plots the ROC curves associated with the DETs curves of the object. It includes the
-#' Confidence band when CIs were computed for the DETs curves.
+#' From a 'DETs' object, this function plots the ROC curves associated with the DET curves in the object. It includes a
+#' confidence band when CIs were computed for the DET curves.
 #'
-#' It accepts plot personalization with graphical parameters (see \code{\link{plot}}, for more details):
+#' It accepts plot customisation with graphical parameters (see \code{\link{plot}}, for more details):
 #'
 #' -  'xlim': a numeric vector of length 2, giving the x and y coordinate ranges of the plot.
 #'
 #' -  'col': a vector of colors, specifying the color for each DET curve.
 #'
-#' -  'labels_x': a numeric vector indicating the labels of the X and Y axes.
+#' -  'labels_x': a numeric vector indicating the labels of the x- and y-axes.
 #'
-#' -  'xlab': a main label for the X axis.
+#' -  'xlab': a main label for the x-axis.
 #'
-#' -  'ylab': a main label for the Y axis.
+#' -  'ylab': a main label for the y-axis.
 #'
-#' -  'panel.first': a background grid is plotted. It can be used for modifying the background style of the graphic.
+#' -  'panel.first': a background grid is plotted. It can be used for modifying the background style of the plot.
 #'
 #' @param dets An object of class "DETs".
-#' @param ... Further graphical arguments passed to the plot function.
+#' @param ... Further graphical arguments passed to the \code{plot} function.
 #' @export
 #' @importFrom graphics axis grid legend lines plot points polygon par
 #' @importFrom stats qnorm
@@ -421,7 +421,7 @@ plot.DET = function (x, ...) {
 #' @examples
 #' library(DET)
 #' n = 5000
-#' #Predictors with normal distribution
+#' # Predictors with normal distribution
 #' set.seed(1235)
 #' scoreNegative1 = rnorm(n, mean = 0.25, sd = 0.125)
 #' set.seed(5321)
@@ -462,7 +462,7 @@ plotROCs = function (dets, ...) {
 #'
 #' From a 'DET' object, this function plots the ROC curve associated with the DET curve of the object. It also draws the confidence band when it is available in the object.
 #' @param dets A 'DET' object from the list of a 'DETs' object computed by the \code{detc} function.
-#' @param ... Further graphical arguments passed to the plot function.
+#' @param ... Further graphical arguments passed to the \code{plot} function.
 #' @export
 #' @importFrom graphics axis grid legend lines plot points polygon par
 #' @importFrom stats qnorm
@@ -470,7 +470,7 @@ plotROCs = function (dets, ...) {
 #' @examples
 #' library(DET)
 #' n = 5000
-#' #Predictors with normal distribution
+#' # Predictors with normal distribution
 #' set.seed(1235)
 #' scoreNegative = rnorm(n, mean = 0.25, sd = 0.125)
 #' set.seed(11452)
@@ -491,12 +491,12 @@ plotROC = function (dets, ...) {
 
 #' EER Plot
 #'
-#' From a 'DETs' object, this function plots the EER points of each classifier within the same graph of the DETs curves.
+#' From a 'DETs' object, this function plots the EER points of each classifier on the same graph as the DET curves.
 #' @param dets An object of class "DETs".
 #' @param pch Symbol used for plotting the EER points, by default \code{pch = 19}.
 #' @param col A vector of colors, specifying the color of the points for each DET curve.
 #' @param lwd Line width used for drawing symbols, by default \code{lwd = 3}.
-#' @param ... Further graphical arguments passed to the plot function.
+#' @param ... Further graphical arguments passed to the \code{plot} function.
 #' @param ... Further graphical arguments passed to the \code{points} function. For example, by default \code{pch = 19} and \code{lwd = 3} (see \code{\link{points}}, for more details).
 #' @export
 #' @importFrom graphics points
@@ -504,7 +504,7 @@ plotROC = function (dets, ...) {
 #' @examples
 #' library(DET)
 #' n = 5000
-#' #Predictors with normal distribution
+#' # Predictors with normal distribution
 #' set.seed(1235)
 #' scoreNegative1 = rnorm(n, mean = 0.25, sd = 0.125)
 #' set.seed(5321)

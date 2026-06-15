@@ -18,11 +18,11 @@ detc.ci(
 \arguments{
 \item{dets}{A 'DETs' object which will be used to extract or compute the CIs of the DET curves.}
 
-\item{conf}{A single numeric value into the (0,1) interval,  which represents the confidence level of the CI of the DET Curve. Default: \code{conf = 0.95}.}
+\item{conf}{A single numeric value in the (0,1) interval representing the confidence level of the DET curve CI. Default: \code{conf = 0.95}.}
 
 \item{positive}{A string with the name of the 'positive' level used as the reference level of 'response'. If left as the default empty string, the second factor level of 'response' is used.}
 
-\item{parallel}{Boolean. By default \code{parallel = TRUE}. If TRUE, the bootstrap method to calculated the CI is processed in parallel, using the backend provided by \code{plyr} (foreach).}
+\item{parallel}{Boolean. By default \code{parallel = TRUE}. If TRUE, the bootstrap method used to calculate the CI is processed in parallel, using the backend provided by \code{plyr} (foreach).}
 
 \item{ncores}{The number of nodes to be forked for the parallel computation of the CI. Default: the maximum available. None used if \code{parallel = FALSE}.}
 
@@ -36,13 +36,13 @@ detc.ci(
 A 'DETs' object containing the list of DET curves with their CIs, one per classifier.
 }
 \description{
-From a 'DETs' object, the function extracts either computes the confidence interval (CI) of each DET curve of the object.
+From a 'DETs' object, the function extracts or computes the confidence interval (CI) of each DET curve in the object.
 }
 \examples{
 \donttest{
 library(DET)
 n = 500
-#Predictors with normal distribution
+# Predictors with normal distribution
 set.seed(1235)
 scoreNegative1 = rnorm(n, mean = 0.25, sd = 0.125)
 set.seed(5321)
@@ -63,9 +63,8 @@ detCurves = detc(
   names = colnames(predictors)
 )
 
-#Run in parallel for a faster execution activating logical argument 'parallel'
-#and setting the number of cores of your computer
-#logical argument 'parallel'
+# Run in parallel for faster execution by activating the logical argument
+# 'parallel' and setting the number of cores of your computer
 detCurvesWithConfidenceInterval = detc.ci(
   dets = detCurves,
   positive = "diseased",

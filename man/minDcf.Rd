@@ -9,14 +9,14 @@ minDcf(det, p = 0.01, cFp = 1, cFn = 10)
 \arguments{
 \item{det}{An object of class "DET".}
 
-\item{p}{A single numeric value into the (0, 1) intervalrepresenting the prior probability of positive class.}
+\item{p}{A single numeric value in the (0, 1) interval representing the prior probability of the positive class.}
 
-\item{cFp}{A single numeric value representing the cost of False Positives.}
+\item{cFp}{A single numeric value representing the cost of false positives.}
 
-\item{cFn}{A single numeric value representing the cost of False Negatives.}
+\item{cFn}{A single numeric value representing the cost of false negatives.}
 }
 \value{
-A list of with five attributes:
+A list with five attributes:
 
 - 'minDcfValue': the computed minDCF.
 
