@@ -1,3 +1,17 @@
+# DET 3.0.3
+
+* New files 
+  - show.R (the current does not work)
+  - measures.R (we have added objects in the output of minDcf function)
+  - plot.R (we have corrected some things about the graphs of the curves with CI, marks of axises, and improved the zoom options for both DET and ROC curve)
+  - detc.R (we have corrected the names of the positive and negative labels)
+  
+* Small code modernisation and polish
+
+# DET 3.0.2 
+
+* Minor changes to package to get DET back on CRAN.
+
 # DET 3.0.0
 
 * Adding class objects to model the DET curves
