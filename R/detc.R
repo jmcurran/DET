@@ -54,7 +54,7 @@
 #' )
 #' }
 #' @export
-#' @import pROC
+#' @importFrom pROC roc ci.se
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom methods new
@@ -186,7 +186,7 @@ detc = function(response = NULL,
 #' )
 #' }
 #' @export
-#' @import pROC
+#' @importFrom pROC roc ci.se
 #' @importFrom doParallel registerDoParallel
 #' @importFrom parallel detectCores makeCluster stopCluster
 #' @importFrom methods new
