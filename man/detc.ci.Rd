@@ -20,7 +20,7 @@ detc.ci(
 
 \item{conf}{A single numeric value into the (0,1) interval,  which represents the confidence level of the CI of the DET Curve. Default: \code{conf = 0.95}.}
 
-\item{positive}{A string with the name of the 'positive' level which is setting as reference level of 'response'.}
+\item{positive}{A string with the name of the 'positive' level used as the reference level of 'response'. If left as the default empty string, the second factor level of 'response' is used.}
 
 \item{parallel}{Boolean. By default \code{parallel = TRUE}. If TRUE, the bootstrap method to calculated the CI is processed in parallel, using the backend provided by \code{plyr} (foreach).}
 

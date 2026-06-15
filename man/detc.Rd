@@ -19,7 +19,7 @@ detc(
 )
 }
 \arguments{
-\item{response}{A factor, typically encoded with 0 (healthy, genuine user, signal, normal) and 1 (diseased, imposter user, noise, abnormal). Also it can be a dicothomous variable which will be treated as a factor. By default, the level of response is taken as diseased.}
+\item{response}{A factor, typically encoded with 0 (healthy, genuine user, signal, normal) and 1 (diseased, imposter user, noise, abnormal). It can also be a dichotomous variable which will be treated as a factor. By default, the second factor level is used as the positive class.}
 
 \item{predictors}{A matrix which columns represent the values of each predictor.}
 
@@ -29,7 +29,7 @@ detc(
 
 \item{conf}{If present, it represents the confidence level of the CI of the DET Curve, within [0,1]. Default: The CI will not be computed.}
 
-\item{positive}{A string with the name of the 'positive' level which is setting as reference level of 'response'.}
+\item{positive}{A string with the name of the 'positive' level used as the reference level of 'response'. If left as the default empty string, the second factor level of 'response' is used.}
 
 \item{parallel}{If TRUE, the bootstrap method to calculated the CI is processed in parallel, using the backend provided by \code{plyr} (foreach).}
 

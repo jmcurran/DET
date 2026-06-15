@@ -2,12 +2,12 @@
 #'
 #' From a response and predictors, the function calculates the DET curve for each pair (response, predictor). Optionally, it can compute this curve with a Confidence Interval (CI).
 #' Instead of a response and predictors, it can also receive a 'DETs' object to extract the results of the DET curves and compute the CIs.
-#' @param response A factor, typically encoded with 0 (healthy, genuine user, signal, normal) and 1 (diseased, imposter user, noise, abnormal). Also it can be a dicothomous variable which will be treated as a factor. By default, the level of response is taken as diseased.
+#' @param response A factor, typically encoded with 0 (healthy, genuine user, signal, normal) and 1 (diseased, imposter user, noise, abnormal). It can also be a dichotomous variable which will be treated as a factor. By default, the second factor level is used as the positive class.
 #' @param predictors A matrix which columns represent the values of each predictor.
 #' @param dets A 'DETs' object which will be used to compute the DET curves.
 #' @param names A character vector that will be used to set the names of the DET Curves. It will also appear on the graphic legend when is plotted.
 #' @param conf If present, it represents the confidence level of the CI of the DET Curve, within [0,1]. Default: The CI will not be computed.
-#' @param positive A string with the name of the 'positive' level which is setting as reference level of 'response'.
+#' @param positive A string with the name of the 'positive' level used as the reference level of 'response'. If left as the default empty string, the second factor level of 'response' is used.
 #' @param parallel If TRUE, the bootstrap method to calculated the CI is processed in parallel, using the backend provided by \code{plyr} (foreach).
 #' @param ncores The number of nodes to be forked for the parallel computation of the CI. Default: the maximum available. None used if \code{parallel = FALSE}.
 #' @param nboot The number of bootstrap replicates to be used for the computation of the CI. Default: 2000.
@@ -141,7 +141,7 @@ detc = function(response = NULL,
 #' From a 'DETs' object, the function extracts either computes the confidence interval (CI) of each DET curve of the object.
 #' @param dets A 'DETs' object which will be used to extract or compute the CIs of the DET curves.
 #' @param conf A single numeric value into the (0,1) interval,  which represents the confidence level of the CI of the DET Curve. Default: \code{conf = 0.95}.
-#' @param positive A string with the name of the 'positive' level which is setting as reference level of 'response'.
+#' @param positive A string with the name of the 'positive' level used as the reference level of 'response'. If left as the default empty string, the second factor level of 'response' is used.
 #' @param parallel Boolean. By default \code{parallel = TRUE}. If TRUE, the bootstrap method to calculated the CI is processed in parallel, using the backend provided by \code{plyr} (foreach).
 #' @param ncores The number of nodes to be forked for the parallel computation of the CI. Default: the maximum available. None used if \code{parallel = FALSE}.
 #' @param nboot The number of bootstrap replicates to be used for the computation of the CI. Default: \code{nboot = 2000}.
